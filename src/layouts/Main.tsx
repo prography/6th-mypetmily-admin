@@ -11,14 +11,7 @@ const Main: React.FC = ({ children }) => {
         <Sidebar />
         <Layout className="site-layout">
           <Header className="site-layout-background" style={{ padding: 0 }} />
-          <Content style={{ margin: '16px' }}>
-            <div
-              className="site-layout-background"
-              style={{ padding: 24, minHeight: 360 }}
-            >
-              {children}
-            </div>
-          </Content>
+          <Content style={{ margin: '16px' }}>{children}</Content>
           <Footer style={{ textAlign: 'center' }}>
             Ant Design ©2018 Created by Ant UED
           </Footer>
