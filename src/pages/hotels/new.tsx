@@ -1,12 +1,11 @@
 import React from 'react';
 import PageWrapper from 'layouts/PageWrapper';
+import FormPage from './form';
 
-type NewPageProps = {};
-
-const NewPage: React.FC<NewPageProps> = (props) => {
+const NewPage: React.FC = () => {
   return (
     <PageWrapper title="호텔 생성">
-      <h1>sdsds</h1>
+      <FormPage />
     </PageWrapper>
   );
 };
