@@ -1,12 +1,17 @@
 import React from 'react';
-import PageWrapper from '../../layouts/PageWrapper';
+import { withRouter } from 'react-router-dom';
+import { Button } from 'antd';
 
-const HotelList = () => {
+import PageWrapper from 'layouts/PageWrapper';
+
+const HotelList = ({ history }: any) => {
   return (
     <PageWrapper title="호텔 목록">
-      <h2>sdsdsd</h2>
+      <Button type="primary" onClick={() => history.push('/hotels/new')}>
+        호텔 생성
+      </Button>
     </PageWrapper>
   );
 };
 
-export default HotelList;
+export default withRouter(HotelList);

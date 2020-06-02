@@ -10,11 +10,8 @@ import {
   TimePicker,
   Checkbox,
 } from 'antd';
-import moment from 'moment';
 import DaumPostcode from 'react-daum-postcode';
 // import { kakaoMapState } from '../../recoil/kakaoMap';
-import KakaoMap from '../../components/KakaoMap';
-import PageWrapper from '../../layouts/PageWrapper';
 
 // 일단 여기 추가
 declare global {
@@ -38,25 +35,47 @@ const validateMessages = {
 
 const FormPage: React.FC = () => {
   // const [latLng, setLatLng] = useState({ Lat: 0.0, Lng: 0.0 });
+  const [form] = Form.useForm();
   const [isPostCode, setIsPostCode] = useState(false);
   const [postCode, setPostCode] = useState({
     zonecode: '',
     address: '',
+    roadAddress: '',
   });
 
   const onFinish = (values: any) => {
-    console.log(values.time);
+    // console.log(values.time);
     // values = {
     //   ...values,
     //   'time-picker': values['time-pricker'].format('HH:mm:ss'),
     // };
-    console.log(values);
+    // console.log(values);
   };
 
   const onCompletePostcode = (data: any) => {
     console.log(data);
-    setPostCode(data);
+    form.setFieldsValue({
+      zipcode: data.zonecode,
+      address: data.address,
+    });
+    setPostCode({ ...data });
     setIsPostCode(false);
+  };
+
+  const getGeocode = () => {
+    let geocoder = new kakao.maps.services.Geocoder();
+
+    let callback = function (result: any, status: any) {
+      if (status === kakao.maps.services.Status.OK) {
+        const { x, y } = result[0];
+        form.setFieldsValue({
+          latitude: x,
+          longitude: y,
+        });
+      }
+    };
+
+    geocoder.addressSearch(postCode.address, callback);
   };
 
   return (
@@ -64,6 +83,7 @@ const FormPage: React.FC = () => {
       layout="vertical"
       name="nest-messages"
       onFinish={onFinish}
+      form={form}
       validateMessages={validateMessages}
     >
       <Form.Item name="name" label="호텔 명">
@@ -74,76 +94,89 @@ const FormPage: React.FC = () => {
       </Form.Item>
       <Form.Item name="zipcode" label="우편번호">
         <Row>
-          <Col span={23}>
+          <Col span={20}>
             <Input disabled value={postCode.zonecode} />
           </Col>
-          <Col span={1}>
+          <Col span={4}>
             <Button type="primary" onClick={() => setIsPostCode(true)}>
               검색
             </Button>
           </Col>
         </Row>
       </Form.Item>
+
       {isPostCode && <DaumPostcode onComplete={onCompletePostcode} />}
       <Form.Item name="address" label="주소">
-        <Input disabled value={postCode.address} />
+        <Input disabled />
       </Form.Item>
       <Form.Item name="addressDetail" label="상세 주소">
         <Input />
       </Form.Item>
+      <Form.Item name="latitude" label="위도">
+        <Input disabled />
+      </Form.Item>
+      <Form.Item name="longitude" label="경도">
+        <Input disabled />
+      </Form.Item>
+      <Button type="primary" onClick={getGeocode}>
+        좌표값 구하기
+      </Button>
+      <br />
+      <br />
+      <br />
       <Row justify="start">
-        <Col span={3}>
+        <Col md={6} lg={3}>
           <Form.Item name="weekTime" label="주중 운영 시간">
             <RangePicker picker="time" format="HH:mm" minuteStep={15} />
           </Form.Item>
         </Col>
-        <Col span={3}>
+        <Col md={6} lg={3}>
           <Form.Item name="satTime" label="토요일 운영 시간">
             <RangePicker picker="time" format="HH:mm" minuteStep={15} />
           </Form.Item>
         </Col>
-        <Col span={3}>
+        <Col md={6} lg={3}>
           <Form.Item name="sunTime" label="일요일 운영 시간">
             <RangePicker picker="time" format="HH:mm" minuteStep={15} />
           </Form.Item>
         </Col>
       </Row>
       <Row justify="start">
-        <Col span={3}>
+        <Col md={6} lg={3}>
           <Form.Item name="weekPrice" label="주중 가격">
             <InputNumber style={{ width: '80%' }} />
           </Form.Item>
         </Col>
-        <Col span={3}>
+        <Col md={6} lg={3}>
           <Form.Item name="satPrice" label="토요일 가격">
             <InputNumber style={{ width: '80%' }} />
           </Form.Item>
         </Col>
-        <Col span={3}>
+        <Col md={6} lg={3}>
           <Form.Item name="sunPrice" label="일요일 가격">
             <InputNumber style={{ width: '80%' }} />
           </Form.Item>
         </Col>
       </Row>
       <Row>
-        <Col span={2}>
+        <Col sm={4} md={2}>
           <Form.Item name="phoneNumber" label="전화번호">
             <InputNumber style={{ width: '80%' }} />
           </Form.Item>
         </Col>
-        <Col span={2}>
+        <Col sm={4} md={2}>
           <Form.Item name="maxDogSize" label="최대 무게">
             <InputNumber style={{ width: '80%' }} />
           </Form.Item>
         </Col>
       </Row>
       <Row>
-        <Col span={2}>
+        <Col sm={4} md={2}>
           <Form.Item name="monitorAvailable">
             <Checkbox>모니터링 여부</Checkbox>
           </Form.Item>
         </Col>
-        <Col span={2}>
+        <Col sm={4} md={2}>
           <Form.Item name="isNeuteredOnly">
             <Checkbox>중성화 여부</Checkbox>
           </Form.Item>
