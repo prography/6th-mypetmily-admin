@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
+import { useRecoilValue } from 'recoil';
 import { UserOutlined, ShopOutlined } from '@ant-design/icons';
+
+import { sidebarToggleState } from 'recoil/sidebar';
 
 const Sidebar = ({ location }: any) => {
   const { Sider } = Layout;
 
-  const [collapsed, setCollapse] = useState(false);
+  const toggle = useRecoilValue(sidebarToggleState);
 
   const parsePathname = location.pathname.split('/')[1];
 
-  console.log(parsePathname);
   return (
-    <Sider
-      collapsible
-      collapsed={collapsed}
-      onCollapse={() => setCollapse(!collapsed)}
-    >
+    <Sider breakpoint="lg" collapsedWidth="0" collapsed={toggle} trigger={null}>
       <div className="logo" />
       <Menu theme="dark" selectedKeys={[parsePathname]} mode="inline" multiple>
         <Menu.Item key="users" icon={<UserOutlined />}>
