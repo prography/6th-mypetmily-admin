@@ -165,4 +165,46 @@ declare module 'recoil' {
   class RecoilValueReadOnly<T> extends AbstractRecoilValueReadonly<T> {}
   type RecoilValue<T> = RecoilValueReadOnly<T> | RecoilState<T>;
   function isRecoilValue(val: unknown): val is RecoilValue<any>;
+
+  interface ReadOnlySelectorFamilyOptions<T, P extends SerializableParam> {
+    key: string;
+    get: (
+      param: P,
+    ) => (opts: { get: GetRecoilValue }) => Promise<T> | RecoilValue<T> | T;
+    // cacheImplementation_UNSTABLE?: () => CacheImplementation<Loadable<T>>,
+    // cacheImplementationForParams_UNSTABLE?: () => CacheImplementation<
+    //   RecoilValue<T>,
+    // >,
+    dangerouslyAllowMutability?: boolean;
+  }
+
+  interface ReadWriteSelectorFamilyOptions<T, P extends SerializableParam> {
+    key: string;
+    get: (
+      param: P,
+    ) => (opts: { get: GetRecoilValue }) => Promise<T> | RecoilValue<T> | T;
+    set: (
+      param: P,
+    ) => (
+      opts: {
+        set: SetRecoilState;
+        get: GetRecoilValue;
+        reset: ResetRecoilState;
+      },
+      newValue: T | DefaultValue,
+    ) => void;
+    // cacheImplementation_UNSTABLE?: () => CacheImplementation<Loadable<T>>,
+    // cacheImplementationForParams_UNSTABLE?: () => CacheImplementation<
+    //   RecoilValue<T>,
+    // >,
+    dangerouslyAllowMutability?: boolean;
+  }
+
+  function selectorFamily<T, P extends SerializableParam>(
+    options: ReadWriteSelectorFamilyOptions<T, P>,
+  ): (param: P) => RecoilState<T>;
+
+  function selectorFamily<T, P extends SerializableParam>(
+    options: ReadOnlySelectorFamilyOptions<T, P>,
+  ): (param: P) => RecoilValueReadOnly<T>;
 }

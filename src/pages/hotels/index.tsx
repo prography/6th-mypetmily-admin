@@ -1,34 +1,21 @@
 import React from 'react';
+import { useRecoilValueLoadable } from 'recoil';
 import { withRouter } from 'react-router-dom';
 import { Button, Table, Tag, Space } from 'antd';
 
 import PageWrapper from 'layouts/PageWrapper';
-
-const dataSource = [
-  {
-    key: '1',
-    name: 'Mike',
-    age: 32,
-    address: '10 Downing Street',
-  },
-  {
-    key: '2',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street',
-  },
-];
+import { getHotelListSelector } from 'recoil/hotel/selector';
 
 const columns = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    key: 'id',
+  },
   {
     title: '호텔명',
     dataIndex: 'name',
     key: 'name',
-  },
-  {
-    title: '나이스',
-    dataIndex: 'age',
-    key: 'age',
   },
   {
     title: '주소',
@@ -38,6 +25,8 @@ const columns = [
 ];
 
 const HotelList = ({ history }: any) => {
+  const hotels = useRecoilValueLoadable(getHotelListSelector);
+
   return (
     <PageWrapper title="호텔 목록">
       <Button type="primary" onClick={() => history.push('/hotels/new')}>
@@ -45,7 +34,9 @@ const HotelList = ({ history }: any) => {
       </Button>
       <br />
       <br />
-      <Table dataSource={dataSource} columns={columns} />
+      {hotels.state === 'hasValue' && (
+        <Table dataSource={hotels.contents} columns={columns} />
+      )}
     </PageWrapper>
   );
 };

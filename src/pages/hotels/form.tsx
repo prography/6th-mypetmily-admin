@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 import {
   Form,
   Input,
@@ -11,6 +10,7 @@ import {
   Checkbox,
 } from 'antd';
 import DaumPostcode from 'react-daum-postcode';
+import { createHotel } from 'api/hotel';
 // import { kakaoMapState } from '../../recoil/kakaoMap';
 
 // 일단 여기 추가
@@ -45,11 +45,26 @@ const FormPage: React.FC = () => {
 
   const onFinish = (values: any) => {
     // console.log(values.time);
-    // values = {
-    //   ...values,
-    //   'time-picker': values['time-pricker'].format('HH:mm:ss'),
-    // };
-    // console.log(values);
+    values = {
+      ...values,
+      weekOpenTime: values.weekTime && values.weekTime[0].format('HH:mm'),
+      weekCloseTime: values.weekTime && values.weekTime[1].format('HH:mm'),
+      satOpenTime: values.satTime && values.satTime[0].format('HH:mm'),
+      satCloseTime: values.satTime && values.satTime[1].format('HH:mm'),
+      sunOpenTime: values.sunTime && values.sunTime[0].format('HH:mm'),
+      sunCloseTime: values.sunTime && values.sunTime[1].format('HH:mm'),
+      monitorAvailable: !(
+        values.monitorAvailable === undefined || !values.monitorAvailable
+      ),
+      isNeuteredOnly: !(
+        values.isNeuteredOnly === undefined || !values.isNeuteredOnly
+      ),
+    };
+
+    try {
+      const data = createHotel(values);
+      console.log(data);
+    } catch (error) {}
   };
 
   const onCompletePostcode = (data: any) => {
