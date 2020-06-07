@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const axiosInstance = axios.create({
-  baseURL: `http://mypetmily-release.ap-northeast-2.elasticbeanstalk.com/api`,
+  baseURL: `https://api.mypetmily.net/api`,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
