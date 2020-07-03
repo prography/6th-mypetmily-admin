@@ -9,6 +9,7 @@ import {
   TimePicker,
   Checkbox,
 } from 'antd';
+import { useHistory } from 'react-router-dom';
 import DaumPostcode from 'react-daum-postcode';
 import { createHotel } from 'api/hotel';
 // import { kakaoMapState } from '../../recoil/kakaoMap';
@@ -43,6 +44,8 @@ const FormPage: React.FC = () => {
     roadAddress: '',
   });
 
+  const history = useHistory();
+
   const onFinish = (values: any) => {
     // console.log(values.time);
     values = {
@@ -64,6 +67,8 @@ const FormPage: React.FC = () => {
     try {
       const data = createHotel(values);
       console.log(data);
+      alert(`${values.name} 생성 성공`);
+      history.push('/hotels');
     } catch (error) {}
   };
 
@@ -176,7 +181,7 @@ const FormPage: React.FC = () => {
       <Row>
         <Col sm={4} md={2}>
           <Form.Item name="phoneNumber" label="전화번호">
-            <InputNumber style={{ width: '80%' }} />
+            <Input style={{ width: '80%' }} />
           </Form.Item>
         </Col>
         <Col sm={4} md={2}>
@@ -205,6 +210,7 @@ const FormPage: React.FC = () => {
         <Button type="primary" htmlType="submit">
           저장
         </Button>
+        <Button onClick={() => history.goBack()}>저장</Button>
       </Form.Item>
     </Form>
   );
