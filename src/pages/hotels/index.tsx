@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilValueLoadable } from 'recoil';
 import { withRouter } from 'react-router-dom';
 import { Button, Table, Tag, Space } from 'antd';
 
 import PageWrapper from 'layouts/PageWrapper';
-import { getHotelListSelector } from 'recoil/hotel/selector';
+import { getHotelList } from '../../api/hotel';
 
 const columns = [
   {
@@ -25,7 +25,13 @@ const columns = [
 ];
 
 const HotelList = ({ history }: any) => {
-  const hotels = useRecoilValueLoadable(getHotelListSelector);
+  const [hotels, setHotel] = useState([]);
+
+  useEffect(() => {
+    // @ts-ignore
+    const { data } = getHotelList();
+    setHotel(data);
+  }, []);
 
   return (
     <PageWrapper title="호텔 목록">
@@ -34,9 +40,7 @@ const HotelList = ({ history }: any) => {
       </Button>
       <br />
       <br />
-      {hotels.state === 'hasValue' && (
-        <Table dataSource={hotels.contents} columns={columns} />
-      )}
+      {hotels && <Table dataSource={hotels} columns={columns} />}
     </PageWrapper>
   );
 };

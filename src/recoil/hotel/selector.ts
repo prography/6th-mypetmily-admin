@@ -1,17 +1,17 @@
 import { selector, selectorFamily } from 'recoil';
 import { createHotel, getHotelList } from 'api/hotel';
 
-export const getHotelListSelector = selector({
-  key: 'getHotelListSelector',
-  get: ({ get }) => {
-    try {
-      const data = getHotelList();
-      return data;
-    } catch (error) {
-      throw error;
-    }
-  },
-});
+// export const getHotelListSelector = selector({
+//   key: 'getHotelListSelector',
+//   get: ({ get }) => {
+//     try {
+//       const data = getHotelList();
+//       return data;
+//     } catch (error) {
+//       throw error;
+//     }
+//   },
+// });
 
 export const createHotelSelector = selectorFamily({
   key: 'createHotelSelector',
