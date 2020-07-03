@@ -68,7 +68,7 @@ const FormPage: React.FC = () => {
       const data = createHotel(values);
       console.log(data);
       alert(`${values.name} 생성 성공`);
-      history.push('/hotels');
+      window.location.href = '/hotels';
     } catch (error) {}
   };
 
