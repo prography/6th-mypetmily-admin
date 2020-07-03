@@ -210,7 +210,6 @@ const FormPage: React.FC = () => {
         <Button type="primary" htmlType="submit">
           저장
         </Button>
-        <Button onClick={() => history.goBack()}>저장</Button>
       </Form.Item>
     </Form>
   );
