@@ -5,6 +5,7 @@ import { Button, Table } from 'antd';
 
 import PageWrapper from 'layouts/PageWrapper';
 import { getHotelListSelector } from 'recoil/hotel/selector';
+import { createHotel, deleteHotel } from '../../api/hotel';
 
 const columns = [
   {
@@ -22,7 +23,24 @@ const columns = [
     dataIndex: 'address',
     key: 'address',
   },
+  {
+    title: '',
+    dataIndex: '',
+    render: (record: any) => {
+      return (
+        <Button onClick={() => handleClickDeleteHotel(record.id)}>삭제</Button>
+      );
+    },
+  },
 ];
+
+const handleClickDeleteHotel = (id: number) => {
+  try {
+    deleteHotel(id);
+    alert(`삭제 성공`);
+    window.location.href = '/hotels';
+  } catch (error) {}
+};
 
 const HotelList = ({ history }: any) => {
   const hotels = useRecoilValueLoadable(getHotelListSelector);

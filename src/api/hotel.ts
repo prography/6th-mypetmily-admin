@@ -14,3 +14,8 @@ export const createHotel = async (hotels: any) => {
   });
   return data;
 };
+
+export const deleteHotel = async (id: number) => {
+  const { data } = await axiosInstance.delete(`/hotels/${id}`);
+  return data;
+};
