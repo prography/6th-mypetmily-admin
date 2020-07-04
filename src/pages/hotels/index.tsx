@@ -27,6 +27,8 @@ const columns = [
     title: '',
     dataIndex: '',
     render: (record: any) => {
+      console.log(record.latitude);
+      console.log(record.longitude);
       return (
         <Button onClick={() => handleClickDeleteHotel(record.id)}>삭제</Button>
       );
@@ -53,7 +55,11 @@ const HotelList = ({ history }: any) => {
       <br />
       <br />
       {hotels.state === 'hasValue' && (
-        <Table dataSource={hotels.contents.data} columns={columns} />
+        <Table
+          dataSource={hotels.contents.data}
+          columns={columns}
+          pagination={false}
+        />
       )}
     </PageWrapper>
   );

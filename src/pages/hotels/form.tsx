@@ -50,6 +50,8 @@ const FormPage: React.FC = () => {
     // console.log(values.time);
     values = {
       ...values,
+      latitude: values.latitude,
+      longitude: values.longitude,
       weekOpenTime: values.weekTime && values.weekTime[0].format('HH:mm'),
       weekCloseTime: values.weekTime && values.weekTime[1].format('HH:mm'),
       satOpenTime: values.satTime && values.satTime[0].format('HH:mm'),
@@ -68,7 +70,7 @@ const FormPage: React.FC = () => {
       const data = createHotel(values);
       console.log(data);
       alert(`${values.name} 생성 성공`);
-      window.location.href = '/hotels';
+      // window.location.href = '/hotels';
     } catch (error) {}
   };
 
