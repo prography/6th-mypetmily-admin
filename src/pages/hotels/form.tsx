@@ -89,8 +89,8 @@ const FormPage: React.FC = () => {
       if (status === kakao.maps.services.Status.OK) {
         const { x, y } = result[0];
         form.setFieldsValue({
-          latitude: x,
-          longitude: y,
+          latitude: Number(x),
+          longitude: Number(y),
         });
       }
     };
