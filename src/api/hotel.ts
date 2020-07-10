@@ -6,7 +6,6 @@ export const getHotelList = async () => {
 };
 
 export const createHotel = async (hotels: any) => {
-  console.log(hotels);
   const { data } = await axiosInstance.post('/hotels', {
     data: {
       ...hotels,
