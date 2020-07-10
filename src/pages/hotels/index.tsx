@@ -1,11 +1,11 @@
-import React from 'react';
-import { useRecoilValueLoadable } from 'recoil';
+import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Button, Table } from 'antd';
 
 import PageWrapper from 'layouts/PageWrapper';
-import { getHotelListSelector } from 'recoil/hotel/selector';
 import { createHotel, deleteHotel } from '../../api/hotel';
+import { useDispatch, useSelector } from 'react-redux';
+import { getHotelSaga } from '../../store/hotel/action';
 
 const columns = [
   {
@@ -45,7 +45,15 @@ const handleClickDeleteHotel = (id: number) => {
 };
 
 const HotelList = ({ history }: any) => {
-  const hotels = useRecoilValueLoadable(getHotelListSelector);
+  const dispatch = useDispatch();
+
+  const items = useSelector((state: any) => state.hotel);
+
+  console.log(items);
+
+  useEffect(() => {
+    dispatch(getHotelSaga());
+  }, []);
 
   return (
     <PageWrapper title="호텔 목록">
@@ -54,13 +62,13 @@ const HotelList = ({ history }: any) => {
       </Button>
       <br />
       <br />
-      {hotels.state === 'hasValue' && (
-        <Table
-          dataSource={hotels.contents.data}
-          columns={columns}
-          pagination={false}
-        />
-      )}
+      {/*{hotels.state === 'hasValue' && (*/}
+      {/*  <Table*/}
+      {/*    dataSource={hotels.contents.data}*/}
+      {/*    columns={columns}*/}
+      {/*    pagination={false}*/}
+      {/*  />*/}
+      {/*)}*/}
     </PageWrapper>
   );
 };
