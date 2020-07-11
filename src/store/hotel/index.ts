@@ -1,10 +1,19 @@
 import { combineReducers } from 'redux';
 
 import { initialStatusSet, createReducer } from 'utils/redux';
-import { createHotelEntity, deleteHotelEntity, getHotelEntity } from './action';
+import {
+  createHotelEntity,
+  deleteHotelEntity,
+  getHotelsEntity,
+  getHotelEntity,
+} from './action';
 
 export type hotelState = {
   hotels: {
+    items: {};
+    statusSet: StatusSet;
+  };
+  hotel: {
     items: {};
     statusSet: StatusSet;
   };
@@ -21,6 +30,10 @@ const initialState: hotelState = {
     items: {},
     statusSet: initialStatusSet,
   },
+  hotel: {
+    items: {},
+    statusSet: initialStatusSet,
+  },
   createHotel: {
     statusSet: initialStatusSet,
   },
@@ -29,9 +42,13 @@ const initialState: hotelState = {
   },
 };
 
+const getHotelsReducer = createReducer(
+  getHotelsEntity.actions,
+  initialState.hotels,
+);
 const getHotelReducer = createReducer(
   getHotelEntity.actions,
-  initialState.hotels,
+  initialState.hotel,
 );
 const createHotelReducer = createReducer(
   createHotelEntity.actions,
@@ -43,7 +60,8 @@ const deleteHotelReducer = createReducer(
 );
 
 export default combineReducers({
-  hotels: getHotelReducer,
+  hotels: getHotelsReducer,
+  hotel: getHotelReducer,
   createHotel: createHotelReducer,
   deleteHotel: deleteHotelReducer,
 });

@@ -157,23 +157,6 @@ const FormPage: React.FC = () => {
           </Form.Item>
         </Col>
       </Row>
-      <Row justify="start">
-        <Col md={6} lg={3}>
-          <Form.Item name="weekPrice" label="주중 가격">
-            <InputNumber style={{ width: '80%' }} />
-          </Form.Item>
-        </Col>
-        <Col md={6} lg={3}>
-          <Form.Item name="satPrice" label="토요일 가격">
-            <InputNumber style={{ width: '80%' }} />
-          </Form.Item>
-        </Col>
-        <Col md={6} lg={3}>
-          <Form.Item name="sunPrice" label="일요일 가격">
-            <InputNumber style={{ width: '80%' }} />
-          </Form.Item>
-        </Col>
-      </Row>
       <Row>
         <Col sm={4} md={2}>
           <Form.Item name="phoneNumber" label="전화번호">

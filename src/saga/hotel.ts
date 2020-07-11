@@ -12,17 +12,27 @@ import {
   createHotelEntity,
   DELETE_HOTEL,
   deleteHotelEntity,
+  GET_HOTEL,
   GET_HOTELS,
   getHotelEntity,
+  getHotelsEntity,
 } from 'store/hotel/action';
 import { fetchEntity } from 'utils/saga';
 
-const getHotels = fetchEntity(getHotelEntity);
+const getHotels = fetchEntity(getHotelsEntity);
+const getHotel = fetchEntity(getHotelEntity);
 const createHotel = fetchEntity(createHotelEntity);
 const deleteHotel = fetchEntity(deleteHotelEntity);
 
 function* watchGetHotels() {
   yield takeLatest(GET_HOTELS, getHotels);
+}
+
+function* watchGetHotel() {
+  while (true) {
+    const { payload } = yield take(GET_HOTEL);
+    yield call(getHotel, payload);
+  }
 }
 
 function* watchCreateHotel() {
@@ -63,5 +73,6 @@ export default function* root() {
     fork(watchCreateHotelSuccess),
     fork(watchDeleteHotel),
     fork(watchDeleteHotelSuccess),
+    fork(watchGetHotel),
   ]);
 }

@@ -1,25 +1,21 @@
 import React, { useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { Button, Table } from 'antd';
 
 import PageWrapper from 'layouts/PageWrapper';
-import { deleteHotel } from '../../api/hotel';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteHotelSaga, getHotelSaga } from '../../store/hotel/action';
+import { deleteHotelSaga, getHotelsSaga } from 'store/hotel/action';
 
 const HotelList = ({ history }: any) => {
   const dispatch = useDispatch();
 
   const columns = [
     {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
-    },
-    {
       title: '호텔명',
-      dataIndex: 'name',
-      key: 'name',
+      key: 'id',
+      render: (record: any) => {
+        return <Link to={`/hotels/${record.id}`}>{record.name}</Link>;
+      },
     },
     {
       title: '주소',
@@ -44,7 +40,7 @@ const HotelList = ({ history }: any) => {
   } = useSelector((state: any) => state.hotel.hotels);
 
   useEffect(() => {
-    dispatch(getHotelSaga());
+    dispatch(getHotelsSaga());
   }, []);
 
   const handleClickDeleteHotel = (id: number) => {

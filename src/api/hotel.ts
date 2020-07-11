@@ -5,6 +5,11 @@ export const getHotelList = async () => {
   return data;
 };
 
+export const getHotel = async (id: number) => {
+  const { data } = await axiosInstance.get(`/hotels/${id}`);
+  return data;
+};
+
 export const createHotel = async (hotels: any) => {
   const { data } = await axiosInstance.post('/hotels', {
     data: {
