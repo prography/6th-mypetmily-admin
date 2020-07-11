@@ -13,9 +13,7 @@ export const getHotelEntity = createEntity(GET_HOTELS, getHotelList);
 export const getHotelSaga = createAction(GET_HOTELS);
 
 // export const GET_HOTEL = 'GET_HOTEL';
-//
-// export const DELETE_HOTEL = 'DELETE_HOTEL';
-// export const deleteHotelEntity = createEntity(DELETE_HOTEL, deleteHotel);
-// export const deleteHotelSaga = createAction(DELETE_HOTEL);
-//
-// export type CreateHotelSaga = ReturnType<typeof createHotelSaga>;
+
+export const DELETE_HOTEL = 'DELETE_HOTEL';
+export const deleteHotelEntity = createEntity(DELETE_HOTEL, deleteHotel);
+export const deleteHotelSaga = createAction(DELETE_HOTEL);
