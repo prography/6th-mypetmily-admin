@@ -1,11 +1,11 @@
 import { createAction } from 'redux-actions';
 import { baseApiActionType, createEntity } from 'utils/redux';
 import { createHotel, deleteHotel, getHotelList } from 'api/hotel';
-//
-// export const CREATE_HOTEL = 'CREATE_HOTEL';
-// export const createHotelEntity = createEntity(CREATE_HOTEL, createHotel);
-// export const createHotelSaga = createAction(CREATE_HOTEL);
-//
+
+export const CREATE_HOTEL = 'CREATE_HOTEL';
+export const createHotelEntity = createEntity(CREATE_HOTEL, createHotel);
+export const createHotelSaga = createAction(CREATE_HOTEL);
+
 // export const UPDATE_HOTEL = 'UPDATE_HOTEL';
 
 export const GET_HOTELS = 'GET_HOTELS';

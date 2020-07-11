@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
 import './index.css';
@@ -26,13 +26,13 @@ const store = createStore(sagaMiddleware);
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <RecoilRoot>
-        <Router>
+    <Router history={history}>
+      <Provider store={store}>
+        <RecoilRoot>
           <App />
-        </Router>
-      </RecoilRoot>
-    </Provider>
+        </RecoilRoot>
+      </Provider>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root'),
 );

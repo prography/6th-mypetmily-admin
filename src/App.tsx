@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import Main from './layouts/Main';
 import HotelList from './pages/hotels';
@@ -15,7 +15,7 @@ function App() {
         <Route exact path="/hotels" component={HotelList} />
         <Route exact path="/hotels/new" component={HotelNew} />
         <Route exact path="/hotels/edit/:id" component={HotelEdit} />
-        <Route exact path="/hotels/:id" component={HotelList} />
+        {/*<Route exact path="/hotels/:id" component={HotelList} />*/}
       </Switch>
     </Main>
   );

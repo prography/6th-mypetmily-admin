@@ -50,7 +50,12 @@ const HotelList = ({ history }: any) => {
   } = useSelector((state: any) => state.hotel.hotels);
 
   useEffect(() => {
+    console.log('123123');
     dispatch(getHotelSaga());
+
+    return () => {
+      console.log('cleanup');
+    };
   }, []);
 
   return (

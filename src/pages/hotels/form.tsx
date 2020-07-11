@@ -12,6 +12,8 @@ import {
 import { useHistory } from 'react-router-dom';
 import DaumPostcode from 'react-daum-postcode';
 import { createHotel } from 'api/hotel';
+import { useDispatch } from 'react-redux';
+import { createHotelSaga } from '../../store/hotel/action';
 // import { kakaoMapState } from '../../recoil/kakaoMap';
 
 // 일단 여기 추가
@@ -36,6 +38,7 @@ const validateMessages = {
 
 const FormPage: React.FC = () => {
   // const [latLng, setLatLng] = useState({ Lat: 0.0, Lng: 0.0 });
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [isPostCode, setIsPostCode] = useState(false);
   const [postCode, setPostCode] = useState({
@@ -44,38 +47,29 @@ const FormPage: React.FC = () => {
     roadAddress: '',
   });
 
-  const history = useHistory();
-
   const onFinish = (values: any) => {
-    // console.log(values.time);
-    values = {
-      ...values,
-      latitude: values.latitude,
-      longitude: values.longitude,
-      weekOpenTime: values.weekTime && values.weekTime[0].format('HH:mm'),
-      weekCloseTime: values.weekTime && values.weekTime[1].format('HH:mm'),
-      satOpenTime: values.satTime && values.satTime[0].format('HH:mm'),
-      satCloseTime: values.satTime && values.satTime[1].format('HH:mm'),
-      sunOpenTime: values.sunTime && values.sunTime[0].format('HH:mm'),
-      sunCloseTime: values.sunTime && values.sunTime[1].format('HH:mm'),
-      monitorAvailable: !(
-        values.monitorAvailable === undefined || !values.monitorAvailable
-      ),
-      isNeuteredOnly: !(
-        values.isNeuteredOnly === undefined || !values.isNeuteredOnly
-      ),
-    };
-
-    try {
-      const data = createHotel(values);
-      console.log(data);
-      alert(`${values.name} 생성 성공`);
-      // window.location.href = '/hotels';
-    } catch (error) {}
+    dispatch(
+      createHotelSaga({
+        ...values,
+        latitude: values.latitude,
+        longitude: values.longitude,
+        weekOpenTime: values.weekTime && values.weekTime[0].format('HH:mm'),
+        weekCloseTime: values.weekTime && values.weekTime[1].format('HH:mm'),
+        satOpenTime: values.satTime && values.satTime[0].format('HH:mm'),
+        satCloseTime: values.satTime && values.satTime[1].format('HH:mm'),
+        sunOpenTime: values.sunTime && values.sunTime[0].format('HH:mm'),
+        sunCloseTime: values.sunTime && values.sunTime[1].format('HH:mm'),
+        monitorAvailable: !(
+          values.monitorAvailable === undefined || !values.monitorAvailable
+        ),
+        isNeuteredOnly: !(
+          values.isNeuteredOnly === undefined || !values.isNeuteredOnly
+        ),
+      }),
+    );
   };
 
   const onCompletePostcode = (data: any) => {
-    console.log(data);
     form.setFieldsValue({
       zipcode: data.zonecode,
       address: data.address,
