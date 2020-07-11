@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Button, Table } from 'antd';
 
 import PageWrapper from 'layouts/PageWrapper';
-import { createHotel, deleteHotel } from '../../api/hotel';
+import { deleteHotel } from '../../api/hotel';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHotelSaga } from '../../store/hotel/action';
 
@@ -27,8 +27,6 @@ const columns = [
     title: '',
     dataIndex: '',
     render: (record: any) => {
-      console.log(record.latitude);
-      console.log(record.longitude);
       return (
         <Button onClick={() => handleClickDeleteHotel(record.id)}>삭제</Button>
       );
@@ -47,9 +45,9 @@ const handleClickDeleteHotel = (id: number) => {
 const HotelList = ({ history }: any) => {
   const dispatch = useDispatch();
 
-  const items = useSelector((state: any) => state.hotel);
-
-  console.log(items);
+  const {
+    items: { data },
+  } = useSelector((state: any) => state.hotel.hotels);
 
   useEffect(() => {
     dispatch(getHotelSaga());
@@ -62,13 +60,7 @@ const HotelList = ({ history }: any) => {
       </Button>
       <br />
       <br />
-      {/*{hotels.state === 'hasValue' && (*/}
-      {/*  <Table*/}
-      {/*    dataSource={hotels.contents.data}*/}
-      {/*    columns={columns}*/}
-      {/*    pagination={false}*/}
-      {/*  />*/}
-      {/*)}*/}
+      {data && <Table dataSource={data} columns={columns} pagination={false} />}
     </PageWrapper>
   );
 };

@@ -6,74 +6,51 @@ export const initialStatusSet = {
   error: {},
 };
 
-export const baseAsyncActionHandler = (
-  statusSet: {
-    status: string;
-    error: {};
-  },
-  items: any,
-  actionTypes: {
-    request: string;
-    success: string;
-    failure: string;
-    reset: string;
-  },
-) => {
-  return {
-    [actionTypes.request]: (state: any) => {
-      return produce(state, (draft: any) => {
-        draft.statusSet.status = 'REQUEST';
-      });
-    },
-    [actionTypes.success]: (state: any, action: any) => {
-      return produce(state, (draft: any) => {
-        draft.statusSet.status = 'SUCCESS';
-        draft.items = action.payload;
-      });
-    },
-    [actionTypes.failure]: (state: any, action: any) => {
-      return produce(state, (draft: any) => {
-        draft.statusSet.status = 'FAILURE';
-        draft.statusSet.error = action.error;
-      });
-    },
-  };
-};
-
 export const createReducer = (
   entity: any,
-  state: { items: any; statusSet: StatusSet },
+  initState: {
+    statusSet: StatusSet;
+    items?: any;
+  },
 ) =>
   handleActions(
     {
-      [entity.request.type]: (state, action) => {
+      [entity.request]: (state, action) => {
         return produce(state, (draft) => {
           draft.statusSet.status = 'REQUEST';
         });
       },
-      [entity.success.type]: (state, action) => {
+      [entity.success]: (state, action) => {
         return produce(state, (draft) => {
           draft.statusSet.status = 'SUCCESS';
           draft.items = action.payload;
         });
       },
-      [entity.failure.type]: (state, action) => {
+      [entity.failure]: (state, action) => {
         return produce(state, (draft) => {
           draft.statusSet.status = 'FAILURE';
-          // @ts-ignore
-          draft.statusSet.error = action.error;
         });
       },
     },
-    state,
+    initState,
   );
+
+export const baseApiActionType = (name: any) => ({
+  request: `${name}_REQUEST`,
+  success: `${name}_SUCCESS`,
+  failure: `${name}_FAILURE`,
+});
 
 export const createEntity = <R, S, F, PARAM extends any[], DATA>(
   name: string,
   api: ApiEndpoint<PARAM, DATA>,
-) => ({
-  request: () => ({ type: `${name}_REQUEST` }),
-  success: (data: DATA) => ({ type: `${name}_SUCCESS`, payload: data }),
-  failure: (error: string) => ({ type: `${name}_FAILURE`, error: error }),
-  api: api,
-});
+) => {
+  const actions = baseApiActionType(name);
+  return {
+    actions,
+    request: () => ({ type: actions.request }),
+    success: (data: DATA) => ({ type: actions.success, payload: data }),
+    failure: (error: string) => ({ type: actions.failure, error: error }),
+    api: api,
+  };
+};

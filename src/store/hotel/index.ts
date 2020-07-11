@@ -17,8 +17,11 @@ const initialState: hotelState = {
   },
 };
 
-const getHotelReducer = createReducer(getHotelEntity, initialState.hotels);
+const getHotelReducer = createReducer(
+  getHotelEntity.actions,
+  initialState.hotels,
+);
 
 export default combineReducers({
-  getHotelReducer,
+  hotels: getHotelReducer,
 });
