@@ -14,7 +14,6 @@ import DaumPostcode from 'react-daum-postcode';
 import { createHotel } from 'api/hotel';
 import { useDispatch } from 'react-redux';
 import { createHotelSaga } from '../../store/hotel/action';
-// import { kakaoMapState } from '../../recoil/kakaoMap';
 
 // 일단 여기 추가
 declare global {
